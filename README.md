@@ -489,3 +489,123 @@ WeakHashMao ：弱键(weak key)Map，Map中使用的对象也被允许释放: �
 
 IdentifyHashMap： : 使用==代替equals()对“键”作比较的hash map。专为解决特殊问题而设计
 
+##MySQL基础
+
+可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。
+SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。
+查询和更新指令构成了 SQL 的 DML 部分：
+SELECT - 从数据库表中获取数据
+UPDATE - 更新数据库表中的数据
+DELETE - 从数据库表中删除数据
+INSERT INTO - 向数据库表中插入数据
+SQL 的数据定义语言 (DDL) 部分使我们有能力创建或删除表格。我们也可以定义索引（键），规定表之间的链接，以及施加表间的约束。
+SQL 中最重要的 DDL 语句:
+CREATE DATABASE - 创建新数据库
+ALTER DATABASE - 修改数据库
+CREATE TABLE - 创建新表
+ALTER TABLE - 变更（改变）数据库表
+DROP TABLE - 删除表
+CREATE INDEX - 创建索引（搜索键）
+DROP INDEX - 删除索引
+
+
+（六）简单说一说drop、delete与truncate的区别
+
+SQL中的drop、delete、truncate都表示删除，但是三者有一些差别
+
+delete和truncate只删除表的数据不删除表的结构
+速度,一般来说: drop> truncate >delete 
+delete语句是dml,这个操作会放到rollback segement中,事务提交之后才生效;
+如果有相应的trigger,执行的时候将被触发. truncate,drop是ddl, 操作立即生效,原数据不放到rollback segment中,不能回滚. 操作不触发trigger. 
+
+（七）drop、delete与truncate分别在什么场景之下使用？
+
+不再需要一张表的时候，用drop
+想删除部分数据行时候，用delete，并且带上where子句
+保留表而删除所有数据的时候用truncate
+
+（八） 超键、候选键、主键、外键分别是什么？
+
+超键：在关系中能唯一标识元组的属性集称为关系模式的超键。一个属性可以为作为一个超键，多个属性组合在一起也可以作为一个超键。超键包含候选键和主键。
+
+候选键：是最小超键，即没有冗余元素的超键。
+
+主键：数据库表中对储存数据对象予以唯一和完整标识的数据列或属性的组合。一个数据列只能有一个主键，且主键的取值不能缺失，即不能为空值（Null）。
+
+外键：在一个表中存在的另一个表的主键称此表的外键。
+
+
+
+
+
+（九）什么是视图？以及视图的使用场景有哪些？
+
+视图是一种虚拟的表，具有和物理表相同的功能。可以对视图进行增，改，查，操作，试图通常是有一个表或者多个表的行或列的子集。对视图的修改不影响基本表。它使得我们获取数据更容易，相比多表查询。
+
+只暴露部分字段给访问者，所以就建一个虚表，就是视图。
+查询的数据来源于不同的表，而查询者希望以统一的方式查询，这样也可以建立一个视图，把多个表查询结果联合起来，查询者只需要直接从视图中获取数据，不必考虑数据来源于不同表所带来的差异
+
+  1、若视图由两个以上的基本表导出的，则此视图不能被更新
+
+（
+
+十）说一说三个范式。
+
+第一范式（1NF）：数据库表中的字段都是单一属性的，不可再分。即不含表中有表，这个单一属性由基本类型构成，包括整型、实数、字符型、逻辑型、日期型等。
+
+第二范式（2NF）：数据库表中不存在非关键字段对任一候选关键字段的部分函数依赖（部分函数依赖指的是存在组合关键字中的某些字段决定非关键字段的情况），也即所有非关键字段都完全依赖于任意一组候选关键字。
+第三范式（3NF）：在第二范式的基础上，数据表中如果不存在非关键字段对任一候选关键字段的传递函数依赖则符合第三范式。所谓传递函数依赖，指的是如 果存在"A → B → C"的决定关系，则C传递函数依赖于A。因此，满足第三范式的数据库表应该不存在如下依赖关系： 关键字段 → 非关键字段 x → 非关键字段y
+
+事务在英文中是transaction，和现实世界中的交易很类似，它有如下四个特性：
+1、A (Atomicity) 原子性
+原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。
+比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至B账户。这两步要么一起完成，要么一起不完成，如果只完成第一步，第二步失败，钱会莫名其妙少了100元。
+2、C (Consistency) 一致性
+一致性也比较容易理解，也就是说数据库要一直处于一致的状态，事务的运行不会改变数据库原本的一致性约束。
+例如现有完整性约束a+b=10，如果一个事务改变了a，那么必须得改变b，使得事务结束后依然满足a+b=10，否则事务失败。
+3、I (Isolation) 独立性
+所谓的独立性是指并发的事务之间不会互相影响，如果一个事务要访问的数据正在被另外一个事务修改，只要另外一个事务未提交，它所访问的数据就不受未提交事务的影响。
+比如现有有个交易是从A账户转100元至B账户，在这个交易还未完成的情况下，如果此时B查询自己的账户，是看不到新增加的100元的。
+4、D (Durability) 持久性
+持久性是指一旦事务提交后，它所做的修改将会永久的保存在数据库上，即使出现宕机也不会丢失。
+
+修改基本表：
+ALTER TABLE 表名 
+1、 ADD 添加新列 
+ 基本形式: alter table 表名 add 列名 列数据类型 [after 插入位置];
+示例:
+在表的最后追加列 address: alter table students add address char(60);
+在名为 age 的列后插入列 birthday: alter table students add birthday date after age;
+2、DROP 删除列
+基本形式: alter table 表名 drop 列名称;
+示例:
+删除 birthday 列: alter table students drop birthday;
+3、CHANGE 修改列 
+基本形式: alter table 表名 change 列名称 列新名称 新数据类型;
+示例:
+
+将表 tel 列改名为 telphone: alter table students change tel telphone char(13) default "-";
+将 name 列的数据类型改为 char(16): alter table students change name name char(16) not null;
+重命名表
+基本形式: alter table 表名 rename 新表名;
+示例:
+重命名 students 表为 workmates: alter table students rename workmates;
+删除整张表
+基本形式: drop table 表名;
+示例: 删除 workmates 表: drop table workmates;
+删除整个数据库
+基本形式: drop database 数据库名;
+示例: 删除 samp_db 数据库: drop database samp_db;
+
+
+SQL LEFT JOIN 关键字
+LEFT JOIN 关键字会从左表 (table_name1) 那里返回所有的行，即使在右表 (table_name2) 中没有匹配的行。
+LEFT JOIN 关键字语法
+SELECT column_name(s)
+FROM table_name1
+LEFT JOIN table_name2 
+ON table_name1.column_name=table_name2.column_name
+
+
+
+
