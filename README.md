@@ -525,10 +525,38 @@ public interface Comparator<T> {
 
 (02) int compare(T o1, T o2) 是“比较o1和o2的大小”。返回“负数”，意味着“o1比o2小”；返回“零”，意味着“o1等于o2”；返回“正数”，意味着“o1大于o2”。
 
+###获取时间戳
+  SimpleDateFormat format =   new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+       String time="1970-01-06 11:45:55";
+       Date date = format.parse(time);
+       System.out.print("Format To times:"+date.getTime());
+List,Set,Map是否继承自Collection接口？
+        答：List，Set是，Map不是。
+所示：
+      Collection
+　　├List
+　　│├LinkedList
+　　│├ArrayList
+　　│└Vector
+　　│　└Stack
+　　└Set
+　　Map
+　　├Hashtable
+　　├HashMap
+　　└WeakHashMap
+      Collection是最基本的集合接口，一个Collection代表一组Object，即Collection的元素。一些Collection允许相同的元素而另一些不行。一些能排序而另一些不行。Java JDK不能提供直接继承自Collection的类，Java JDK提供的类都是继承自Collection的"子接口"，如:List和Set。
+        注意：Map没有继承Collection接口，Map提供key到value的映射。一个Map中不能包含相同key，每个key只能映射一个value。Map接口提供3种集合的视图，Map的内容可以被当做一组key集合，一组value集合，或者一组key-value映射。
 
+####InputStream和Reader的区别
 
-
-=======
+java.io下面有两个抽象类：InputStream和Reader
+InputStream是表示字节输入流的所有类的超类
+Reader是用于读取字符流的抽象类
+InputStream提供的是字节流的读取，而非文本读取，这是和Reader类的根本区别。
+即用Reader读取出来的是char数组或者String ，使用InputStream读取出来的是byte数组。
+		
+		
+		=======
  1. 并发：在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行。其中两种并发关系分别是同步和互斥
 2. 互斥：进程间相互排斥的使用临界资源的现象，就叫互斥。
 3. 同步：进程之间的关系不是相互排斥临界资源的关系，而是相互依赖的关系。进一步的说明：就是前一个进程的输出作为后一个进程的输入，当第一个进程没有输出时第二个进程必须等待。具有同步关系的一组并发进程相互发送的信息称为消息或事件。
@@ -539,7 +567,7 @@ public interface Comparator<T> {
 3. 同步：进程之间的关系不是相互排斥临界资源的关系，而是相互依赖的关系。进一步的说明：就是前一个进程的输出作为后一个进程的输入，当第一个进程没有输出时第二个进程必须等待。具有同步关系的一组并发进程相互发送的信息称为消息或事件。
 其中并发又有伪并发和真并发，伪并发是指单核处理器的并发，真并发是指多核处理器的并发。
 4. 并行：在单处理器中多道程序设计系统中，进程被交替执行，表现出一种并发的外部特种；在多处理器系统中，进程不仅可以交替执行，而且可以重叠执行。在多处理器上的程序才可实现并行处理。从而可知，并行是针对多处理器而言的。并行是同时发生的多个并发事件，具有并发的含义，但并发不一定并行，也亦是说并发事件之间不一定要同一时刻发生。
->>>>>>> 5c1b7dcd922636fb5b406a33ccead8d75a720e45
+
 
 ##MySQL基础
 
