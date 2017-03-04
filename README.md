@@ -555,6 +555,97 @@ Reader是用于读取字符流的抽象类
 InputStream提供的是字节流的读取，而非文本读取，这是和Reader类的根本区别。
 即用Reader读取出来的是char数组或者String ，使用InputStream读取出来的是byte数组。
 		
+####
+JAVA语言的下面几种数组复制方法中，哪个效率最高？
+效率：System.arraycopy > clone > System.copyOf > for循环
+
+public class EqualsMethod
+{
+    public static void main(String[] args)
+    {
+        Integer n1 = new Integer(47);
+        Integer n2 = new Integer(47);
+        System.out.print(n1 == n2);
+        System.out.print(",");
+        System.out.println(n1 != n2);
+    }
+}结果：false，true
+首先 我们要知道 == 这个比较符号
+==可用于基本类型和引用类型：当用于基本类型时候，是比较值是否相同；当用于引用类型的时候，是比较对象是否相同。
+"=="和"!="比较的是地址 指第一个new()c出来的地址
+所以因为两次new() 分出的内存也不同
+所以System.out.print(n1 == n2);返回 false
+！=就返回true	
+class C {
+    C() {
+        System.out.print("C");
+    }
+}
+class A {
+    C c = new C();
+    A() {
+        this("A");
+        System.out.print("A");
+    }
+    A(String s) {
+        System.out.print(s);
+    }
+}
+class Test extends A {
+    Test() {
+        super("B");
+        System.out.print("B");
+    }
+ 
+    public static void main(String[] args) {
+        new Test();
+    }
+}	结果：CBB
+初始化过程是这样的： 
+1.首先，初始化父类中的静态成员变量和静态代码块，按照在程序中出现的顺序初始化； 
+2.然后，初始化子类中的静态成员变量和静态代码块，按照在程序中出现的顺序初始化； 
+3.其次，初始化父类的普通成员变量和代码块，在执行父类的构造方法；
+4.最后，初始化子类的普通成员变量和代码块，在执行子类的构造方法； 
+ 
+（1）初始化父类的普通成员变量和代码块，执行 C c = new C(); 输出C 
+（2）super("B"); 表示调用父类的构造方法，不调用父类的无参构造函数，输出B 
+（3） System.out.print("B"); 
+ 所以输出CBB
+ 
+ public class HelloB extends HelloA 
+{
+ public HelloB()
+ {
+ }
+ {
+     System.out.println("I’m B class");
+ }
+ static
+ {
+     System.out.println("static B");
+ }
+ public static void main(String[] args)
+ {
+     new HelloB();
+ }
+}
+class HelloA
+{
+ public HelloA()
+ {
+ }
+ {
+     System.out.println("I’m A class");
+ }
+ static
+ {
+     System.out.println("static A");
+ }
+}结果：
+static A
+static B
+I’m A class
+I’m B class
 		
 		=======
  1. 并发：在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行。其中两种并发关系分别是同步和互斥
