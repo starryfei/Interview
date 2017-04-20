@@ -807,7 +807,32 @@ FROM table_name1
 LEFT JOIN table_name2 
 ON table_name1.column_name=table_name2.column_name
 
+数据库的视图：
+数据库索引（什么时候索引失效）：
+1、如果条件中有or，即使其中有条件带索引也不会使用(这也是为什么尽量少用or的原因)（注意：要想使用or，又想让索引生效，只能将or条件中的每个列都加上索引）
+2.对于多列索引，不是使用的第一部分，则不会使用索引
+3.like查询是以%开头 
+4.如果列类型是字符串，那一定要在条件中将数据使用引号引用起来,否则不使用索引
 
+###jsp和servlet
+jsp可以使用servlet代替
+servlet的生命周期:
+1，初始化阶段  调用init()方法
+2，响应客户请求阶段　　调用service()方法
+3，终止阶段　　调用destroy()方法
+
+Servlet初始化阶段：
+　　在下列时刻Servlet容器装载Servlet：
+　　1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的<Servlet></Servlet>之间添加如下代码：<loadon-startup>1</loadon-startup> 
+　　2，在Servlet容器启动后，客户首次向Servlet发送请求
+　　3，Servlet类文件被更新后，重新装载Servlet
+　　   Servlet被装载后，Servlet容器创建一个Servlet实例并且调用Servlet的init()方法进行初始化。在Servlet的整个生命周期内，init()方法只被调用一次。
+
+
+
+
+Forward：直接请求转发，客户端和浏览器只发出一次请求，Servlet、HTML、JSP或其它信息资源，由第二个信息资源响应该请求，在请求对象request中，保存的对象对于每个信息资源是共享的。
+Redirect：间接请求转发 实际是两次HTTP请求，服务器端在响应第一次请求的时候，让浏览器再向另外一个URL发出请求，从而达到转发的目的。
 银行家算法：避免死锁
 资源有序分配法：预防死锁
 资源分配图化简法：检测死锁
@@ -817,3 +842,7 @@ A类网络号码范围是0.0.0.0---127.0.0.0
 B类，网络号码范围是128.0.0.0--191.254.0.0
 C类，网络号码范围是192.0.0.0--223.254.254.0
 D类，224.0.0.0-239.255.255.255
+
+
+
+
