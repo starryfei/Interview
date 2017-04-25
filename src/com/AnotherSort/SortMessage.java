@@ -1,6 +1,6 @@
 package com.AnotherSort;
 
-import java.security.KeyStore.Entry;
+import java.util.Map.Entry;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,16 +27,16 @@ public class SortMessage {
 		Date date2 = dateFormat.parse(time2);
 		Date date3 = dateFormat.parse(time3);
 		Date date4 = dateFormat.parse(time4);
-		array.add(new Message("ÕÅÈı", date1, "ddd"));
-		array.add(new Message("ÀîËÄ", date2, "ddda"));
-		array.add(new Message("ÕÅÈı", date3, "dddd"));
-		array.add(new Message("ÍõÎå", date4, "dddf"));
-		array.add(new Message("ÍõÎå", date4, "dddd"));
+		array.add(new Message("ï¿½ï¿½ï¿½ï¿½", date1, "ddd"));
+		array.add(new Message("ï¿½ï¿½ï¿½ï¿½", date2, "ddda"));
+		array.add(new Message("ï¿½ï¿½ï¿½ï¿½", date3, "dddd"));
+		array.add(new Message("ï¿½ï¿½ï¿½ï¿½", date4, "dddf"));
+		array.add(new Message("ï¿½ï¿½ï¿½ï¿½", date4, "dddd"));
 		array.add(new Message("22", date4, "dddd"));
 		
-		// ÊµÏÖComparator±È½Ï£¬ÊµÏÖComparatorÀàÀ´ĞÂ½¨Ò»¸ö±È½ÏÆ÷
+		// Êµï¿½ï¿½Comparatorï¿½È½Ï£ï¿½Êµï¿½ï¿½Comparatorï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½Ò»ï¿½ï¿½ï¿½È½ï¿½ï¿½ï¿½
 		Collections.sort(array, new CustomComparator1());
-		// ÊµÏÖComparable±È½Ï£¬ÊµÏÖComparable½Ó¿ÚµÄÀàµÄ¶ÔÏó
+		// Êµï¿½ï¿½Comparableï¿½È½Ï£ï¿½Êµï¿½ï¿½Comparableï¿½Ó¿Úµï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 		// Collections.sort(array);
 		for (Message message1 : array) {
 			System.out.println(message1);
@@ -45,15 +45,23 @@ public class SortMessage {
 	}
 	public static void count(List<Message> array) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
-		Message message = new Message();
 		
 		for (Message message1 : array) {
-			Integer coun=1;
-			if(map.containsKey(message1.getName()))
-				coun++;
-		   map.put(message1.getName(), coun);
+			if(map.containsKey(message1.getName())){
+				 int coun = map.get(message1.getName());
+				 map.put(message1.getName(), coun+1);
+			}else{
+				map.put(message1.getName(), 1);
+			}
+		  
 		}
 	
-		System.out.println(map);	
+		 Iterator<Entry<String, Integer>> it = map.entrySet().iterator();  
+	        while (it.hasNext()) {  
+	            Map.Entry<String, Integer> entry =  it.next();  
+	            String key = entry.getKey();  
+	             Integer value = entry.getValue();  
+	            System.out.println("key = " + key + "; value = " + value);  
+	        }  	
 	}
 }
