@@ -817,6 +817,19 @@ ON table_name1.column_name=table_name2.column_name
 mysql按照汉字排序
 select * from 表 ORDER BY CONVERT("要排序的字段" USING GBK)
 
+###数据库事务
+mysql开启事务：start transaction;
+提交事务(commit)：commit;
+事务回滚:rollback
+####JDBC中使用事务：
+Connection.setAutoCommit(false);//开启事务(start transaction)
+Connection.rollback();//回滚事务(rollback)
+Connection.commit();//提交事务(commit)
+####设置事务回滚点：
+    Savepoint sp = conn.setSavepoint();
+　　Conn.rollback(sp);
+　　Conn.commit();//回滚后必须通知数据库提交事务
+  
 数据库的视图：
 数据库索引（什么时候索引失效）：
 1、如果条件中有or，即使其中有条件带索引也不会使用(这也是为什么尽量少用or的原因)（注意：要想使用or，又想让索引生效，只能将or条件中的每个列都加上索引）
