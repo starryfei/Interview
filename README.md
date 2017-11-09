@@ -682,7 +682,39 @@ I’m B class
 如果当前线程池中的线程数目>=corePoolSize，则每来一个任务，会尝试将其添加到任务缓存队列当中，若添加成功，则该任务会等待空闲线程将其取出去执行；若添加失败（一般来说是任务缓存队列已满），则会尝试创建新的线程去执行这个任务；
 如果当前线程池中的线程数目达到maximumPoolSize，则会采取任务拒绝策略进行处理；
 如果线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止，直至线程池中的线程数目不大于corePoolSize；如果允许为核心池中的线程设置存活时间，那么核心池中的线程空闲时间超过keepAliveTime，线程也会被终止。
+4.任务缓存队列及排队策略
 
+　　在前面我们多次提到了任务缓存队列，即workQueue，它用来存放等待执行的任务。
+
+　　workQueue的类型为BlockingQueue<Runnable>，通常可以取下面三种类型：
+
+　　1）ArrayBlockingQueue：基于数组的先进先出队列，此队列创建时必须指定大小；
+
+　　2）LinkedBlockingQueue：基于链表的先进先出队列，如果创建时没有指定此队列大小，则默认为Integer.MAX_VALUE；
+
+　　3）synchronousQueue：这个队列比较特殊，它不会保存提交的任务，而是将直接新建一个线程来执行新来的任务。
+
+5.任务拒绝策略
+
+　　当线程池的任务缓存队列已满并且线程池中的线程数目达到maximumPoolSize，如果还有任务到来就会采取任务拒绝策略，通常有以下四种策略：
+
+ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。
+ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。
+ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）
+ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务
+6.线程池的关闭
+
+　　ThreadPoolExecutor提供了两个方法，用于线程池的关闭，分别是shutdown()和shutdownNow()，其中：
+
+shutdown()：不会立即终止线程池，而是要等所有任务缓存队列中的任务都执行完后才终止，但再也不会接受新的任务
+shutdownNow()：立即终止线程池，并尝试打断正在执行的任务，并且清空任务缓存队列，返回尚未执行的任务
+7.线程池容量的动态调整
+
+　　ThreadPoolExecutor提供了动态调整线程池容量大小的方法：setCorePoolSize()和setMaximumPoolSize()，
+
+setCorePoolSize：设置核心池大小
+setMaximumPoolSize：设置线程池最大能创建的线程数目大小
+　　当上述参数从小变大时，ThreadPoolExecutor进行线程赋值，还可能立即创建新的线程来执行任务。
 		
 类a继承类b并重写b类的protected方法func时，a中func方法的访问修饰符可以是？
 private/protected  子类继承父类的方法是，控制符必须大于或等于父类的访问控制符		
