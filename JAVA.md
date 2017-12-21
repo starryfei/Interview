@@ -1,6 +1,6 @@
 ### 一个非常有意思的题
 ```
-		public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
         Class<?> cache = Integer.class.getDeclaredClasses()[0]; //1
         Field myCache = cache.getDeclaredField("cache"); //2
         myCache.setAccessible(true);//3
