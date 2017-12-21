@@ -1,5 +1,5 @@
 ### 一个非常有意思的题
-        
+```
 		public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
         Class<?> cache = Integer.class.getDeclaredClasses()[0]; //1
         Field myCache = cache.getDeclaredField("cache"); //2
@@ -10,6 +10,7 @@
         int b = a + a;
         System.out.printf("%d + %d = %d", a, a, b); //
       }
+```
  上面的这段程序的输出是什么呢？
  
  **Integer 源码**：
@@ -49,6 +50,7 @@
         else
             return new Integer(i);
     }
+```
 ```
  *分析：*
                 
